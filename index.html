@@ -14,30 +14,26 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        /* Animated gradient background */
+        background: linear-gradient(135deg, #ff4d6d, #ff758c, #ffb199, #ffe29f);
+        background-size: 400% 400%;
+        animation: gradientMove 12s ease infinite;
     }
 
-    /* Video background styling */
-    #bg-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;       /* fill screen width */
-        height: 100%;      /* fill screen height */
-        object-fit: cover; /* crop/scale to cover */
-        z-index: -1;       /* keep video behind everything */
+    @keyframes gradientMove {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
     }
 
     .app {
-        width: 90%;              /* responsive width */
-        max-width: 320px;        /* limit on larger screens */
-        height: 90%;             /* responsive height */
-        max-height: 600px;       /* limit on larger screens */
-        background: white;
+        width: 320px;
+        height: 600px;
+        background: rgba(255,255,255,0.9); /* semi-transparent so colors show through */
         border-radius: 30px;
         box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         overflow: hidden;
         position: relative;
-        z-index: 1; /* keep card above video */
     }
 
     .header {
@@ -98,26 +94,10 @@
         font-size: 12px;
         color: gray;
     }
-
-    /* Extra tweak for very small phones */
-    @media (max-width: 400px) {
-        .message {
-            font-size: 16px;
-        }
-        button {
-            font-size: 14px;
-            padding: 10px 16px;
-        }
-    }
 </style>
 </head>
 
 <body>
-
-<!-- Video background -->
-<video autoplay muted loop playsinline id="bg-video">
-    <source src="Ama.mp4" type="video/mp4">
-</video>
 
 <div class="app">
 
@@ -162,7 +142,20 @@
 function nextScreen() {
     document.getElementById("screen1").classList.add("hidden");
     document.getElementById("screen2").classList.remove("hidden");
-    document.getElementById("song").play();
+    // Start audio only after user clicks
+    const song = document.getElementById("song");
+    song.volume = 0; // start silent
+    song.play();
+    // fade in volume
+    let vol = 0;
+    const fade = setInterval(() => {
+        if (vol < 1) {
+            vol += 0.05;
+            song.volume = vol;
+        } else {
+            clearInterval(fade);
+        }
+    }, 200);
 }
 
 function yesLove() {
