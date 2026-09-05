@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nana Ama ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Video background styling */
+    #bg-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;       /* fill screen width */
+        height: 100%;      /* fill screen height */
+        object-fit: cover; /* crop/scale to cover */
+        z-index: -1;       /* keep video behind everything */
+    }
+
+    .app {
+        width: 90%;              /* responsive width */
+        max-width: 320px;        /* limit on larger screens */
+        height: 90%;             /* responsive height */
+        max-height: 600px;       /* limit on larger screens */
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        overflow: hidden;
+        position: relative;
+        z-index: 1; /* keep card above video */
+    }
+
+    .header {
+        background: linear-gradient(to right, #ff4d6d, #ff758c);
+        color: white;
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .content {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .message {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(to right, #ff4d6d, #ff758c);
+        color: white;
+        font-size: 16px;
+        margin: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .heart {
+        position: absolute;
+        color: #ff4d6d;
+        animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100%); opacity: 1; }
+        100% { transform: translateY(-100%); opacity: 0; }
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        color: gray;
+    }
+
+    /* Extra tweak for very small phones */
+    @media (max-width: 400px) {
+        .message {
+            font-size: 16px;
+        }
+        button {
+            font-size: 14px;
+            padding: 10px 16px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Video background -->
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="Ama.mp4" type="video/mp4">
+</video>
+
+<div class="app">
+
+    <div class="header">
+        Nana Ama ❤️
+    </div>
+
+    <div class="content">
+
+        <div id="screen1">
+            <p class="message">
+                I tried to act normal…  
+                then I met you 😌💕  
+                now I’m permanently distracted.
+            </p>
+            <button onclick="nextScreen()">Continue 😏</button>
+        </div>
+
+        <div id="screen2" class="hidden">
+            <p class="message">Do you love me? 🤨</p>
+            <button onclick="yesLove()">Yes 😍</button>
+            <button id="noBtn" onmouseover="moveBtn()">No 🙄</button>
+        </div>
+
+        <div id="screen3" class="hidden">
+            <p class="message" id="finalMsg"></p>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Made with ❤️ by Jerry
+    </div>
+
+</div>
+
+<audio id="song" loop>
+    <source src="dandelion.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function nextScreen() {
+    document.getElementById("screen1").classList.add("hidden");
+    document.getElementById("screen2").classList.remove("hidden");
+    document.getElementById("song").play();
+}
+
+function yesLove() {
+    document.getElementById("screen2").classList.add("hidden");
+    document.getElementById("screen3").classList.remove("hidden");
+
+    document.getElementById("finalMsg").innerHTML =
+    "I knew it 😌❤️ You’re my favorite person… don’t let it get to your head 😏🌼";
+
+    startHearts();
+}
+
+function moveBtn() {
+    const btn = document.getElementById("noBtn");
+    btn.style.position = "absolute";
+    btn.style.left = Math.random() * 250 + "px";
+    btn.style.top = Math.random() * 400 + "px";
+}
+
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 300 + "px";
+        heart.style.fontSize = Math.random() * 20 + 10 + "px";
+
+        document.querySelector(".app").appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
